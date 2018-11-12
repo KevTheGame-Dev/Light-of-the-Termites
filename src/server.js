@@ -1,7 +1,6 @@
 const http = require('http');
 const url = require('url');
-const htmlHandler = require('./htmlResponses');
-const audioHandler = require('./audioResponses.js');
+const fileHandler = require('./fileResponses');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
@@ -19,19 +18,27 @@ const onRequest = (request, response) => {
 
   switch (parsedURL.pathname) {
     case '/':
-      htmlHandler.getIndex(request, response);
+      fileHandler.getIndex(request, response);
       break;
     case '/styles.css':
-      htmlHandler.getStyles(request, response);
+      fileHandler.getStyles(request, response);
       break;
-    case '/audio':
-      audioHandler.getAudio(request, response, params);
+    case '/js/main.js':
+    case '/js/classes.js':
+    case '/js/loader.js':
+    case '/js/interaction.js':
+    case '/js/utilities.js':
+    case '/js/stateManager.js':
+    case '/js/player.js':
+    case '/js/enemy.js':
+    case '/js/grid.js':
+      fileHandler.getJS(request, response, parsedURL.pathname);
       break;
-    case '/processAudio.js':
-      htmlHandler.getAudioJS(request, response);
+    case '/media/termite.png':
+      fileHandler.getSprites(request, response, parsedURL.pathname);
       break;
     default:
-      htmlHandler.getIndex(request, response);
+      fileHandler.getIndex(request, response);
       break;
   }
 };
